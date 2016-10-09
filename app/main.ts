@@ -10,33 +10,14 @@ class Main {
 
             imageObject.paint();
 
-            let worker = new Worker('app/calculateWeights.js');
-
-            worker.postMessage('lalal bessmislenny message');
-
-            // this.learning(imageObject);
+            imageObject.learning();
         };
 
-        // image.src = 'app/images/smile.png';
+        image.src = 'app/images/donatello.png';
 
     }
 
-    /**
-     * @param {ImageObject} image
-     */
-    learning(image: ImageObject) {
-        let i = 0;
 
-        setInterval(() => {
-            image.training();
-
-            image.paint();
-
-            console.log('Iteration: ', i++);
-            console.log('Error: ', image.error);
-        }, 17);
-
-    }
 }
 
 new Main();

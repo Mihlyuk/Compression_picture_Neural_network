@@ -1,5 +1,5 @@
 import Block from './Block';
-import {RGBA} from './enum';
+import {RGBA, CALCULATE_WEIGHTS_WORKER} from './enum';
 import Matrix from './Matrix';
 
 export default class ImageObject {
@@ -14,6 +14,7 @@ export default class ImageObject {
     marginError: number;
     error: number = 0;
     context: CanvasRenderingContext2D;
+    iteration: number = 0;
 
     /**
      * @param {HTMLImageElement} image
@@ -120,18 +121,59 @@ export default class ImageObject {
         this.transposeWeightMatrix = Matrix.normalize(this.transposeWeightMatrix);
     }
 
-    training() {
-        let blockArray = this.blockArray;
+    learning() {
+        let iteration: number = 0,
+            blockArray = this.blockArray;
 
-        blockArray.forEach((block) => {
-            this.calculateWeights(block);
+        let array1 = blockArray.slice(0, 256);
+        let array2 = blockArray.slice(256, 512);
+        let array3 = blockArray.slice(512, 768);
+        let array4 = blockArray.slice(768, 1024);
 
-            this.paintBlock(block);
+        let array = [array1, array2, array3, array4];
+
+        array.forEach((blockArray) => {
+            let worker = new Worker(CALCULATE_WEIGHTS_WORKER);
+
+            blockArray.forEach((block) => {
+                worker.postMessage({
+                    'msg': 'calculate',
+                    'block': block,
+                    'weightMatrix': this.weightMatrix,
+                    'transposeWeightMatrix': this.transposeWeightMatrix
+                });
+
+            });
+
+            worker.addEventListener('message', (event) => {
+
+                let data = event.data;
+
+                console.log('Progress: ' + Math.floor(iteration++ / this.blockArray.length * 100) + '%');
+
+                this.weightMatrix = data.result.weightMatrix;
+                this.transposeWeightMatrix = data.result.transposeWeightMatrix;
+
+                if (iteration >= this.blockArray.length) {
+                    debugger;
+                    console.log('calculating error...');
+
+                    blockArray.forEach((block) => {
+                        this.calculateError(block);
+                    });
+
+                    this.paint();
+
+                    console.log('Iteration: ', this.iteration++);
+                    console.log('Error: ', this.error);
+
+                    this.learning();
+                }
+            });
+
         });
 
-        blockArray.forEach((block) => {
-            this.calculateError(block);
-        });
+
 
     }
 

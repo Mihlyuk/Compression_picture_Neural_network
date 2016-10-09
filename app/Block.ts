@@ -31,4 +31,8 @@ export default class Block {
     getMatrix() {
         return this.buffer;
     }
+
+    stringify() {
+        return JSON.stringify(this);
+    }
 }
