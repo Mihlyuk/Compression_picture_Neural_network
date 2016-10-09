@@ -6,13 +6,7 @@ export default class Block {
     startPixelY: number;
     buffer: number[][];
 
-    /**
-     * @param {number} startPixelX
-     * @param {number} startPixelY
-     * @param {number} width
-     * @param {number} height
-     */
-    constructor(startPixelX: number, startPixelY: number, width: number, height: number) {
+     constructor(startPixelX: number, startPixelY: number, width: number, height: number) {
         this.width = width;
         this.height = height;
         this.startPixelX = startPixelX;
@@ -21,9 +15,6 @@ export default class Block {
         this.buffer = [];
     }
 
-    /**
-     * @param {number[][]} pixels
-     */
     add(pixels: number[][]) {
         this.buffer = pixels;
     }

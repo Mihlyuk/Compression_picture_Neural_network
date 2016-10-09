@@ -1,29 +1,72 @@
 <html>
-
 <head>
-    <title>Angular 2Do</title>
+    <title>Neuron network JS MRZ</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css">
-
-    <!-- Polyfill(s) for older browsers -->
+    <link rel="stylesheet" href="app/css/index.css">
     <script src="node_modules/core-js/client/shim.min.js"></script>
-
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
 
     <script src="systemjs.config.js"></script>
     <script>
-//        System.import('app/calculateWeights').catch(function(err){ console.error(err); });
         System.import('app').catch(function(err){ console.error(err); });
     </script>
 </head>
-
 <body>
-<img class="image" src="app/images/smile.png">
-<br>
-<canvas class="canvas"></canvas>
-</body>
 
+<div class="content">
+
+    <div class="flex-section control-panel-section">
+        <button class="control-button start-button" onclick="startAction">START TRAINING</button>
+        <button class="control-button stop-button" onclick="stopAction">STOP TRAINING</button>
+    </div>
+
+    <div class="flex-section image-section">
+        <div class="uncompressed-image-section">
+            <div class="image-title">
+                <span> Uncompressed image </span>
+            </div>
+            <div class="image">
+                <img class="uncompressed-image" src="app/images/256px-Lenna.png">
+            </div>
+        </div>
+
+        <div class="vertical-line"></div>
+
+        <div class="flex-section compressed-image-section">
+            <div class="image-title">
+                <span>Compressed image</span>
+            </div>
+            <div class="image">
+                <!--<img src="app/images/256px-Lenna.png">-->
+                <canvas class="canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-section">
+        <div class="horizontal-line"></div>
+    </div>
+
+    <div class="process-output-section">
+        <div>
+            <div class="output-value-title">
+                <span>Iteration:</span>
+            </div>
+            <div class="output-value">
+            </div>
+        </div>
+        <div>
+            <div class="output-value-title">
+                <span>Error:</span>
+            </div>
+            <div class="output-value">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>

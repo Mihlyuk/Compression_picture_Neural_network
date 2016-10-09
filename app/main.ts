@@ -1,43 +1,35 @@
-import ImageObject from './ImageObject';
-import {BLOCK_WIDTH, BLOCK_HEIGHT, MIDDLE_NEURONS, ERROR} from './enum';
+import {RGBA, BLOCK_WIDTH, BLOCK_HEIGHT, MIDDLE_NEURONS, ERROR} from './config/Consts'
+import Options from "./model/Options";
+import NeuronNetwork from "./model/NeuronNetwork";
+import ImagePainter from './view/ImagePainter'
+
 class Main {
+    neuronNetworkOptions: Options;
+    neuronNetwork = NeuronNetwork;
 
     constructor() {
-        let image = <HTMLImageElement> document.querySelector('.image');
-
-        image.onload = () => {
-            let imageObject = new ImageObject(image, BLOCK_WIDTH, BLOCK_HEIGHT, MIDDLE_NEURONS, ERROR);
-
-            imageObject.paint();
-
-            let worker = new Worker('app/calculateWeights.js');
-
-            worker.postMessage('lalal bessmislenny message');
-
-            // this.learning(imageObject);
-        };
-
-        // image.src = 'app/images/smile.png';
-
+        let canvas = <HTMLCanvasElement> document.querySelector('canvas');
+        let image = <HTMLImageElement> document.querySelector('.uncompressed-image');
+        this.neuronNetwork = new NeuronNetwork(image, this.getOptions());
+        this.neuronNetwork.addImagePainter(new ImagePainter(canvas));
+        this.neuronNetwork.startTrain();
     }
 
-    /**
-     * @param {ImageObject} image
-     */
-    learning(image: ImageObject) {
-        let i = 0;
+    getOptions() {
+        if (!this.neuronNetworkOptions) {
+            this.neuronNetworkOptions = new Options(RGBA, BLOCK_WIDTH, BLOCK_HEIGHT, MIDDLE_NEURONS, ERROR);
+        }
 
-        setInterval(() => {
-            image.training();
+        return this.neuronNetworkOptions;
+    }
 
-            image.paint();
+    startAction() {
+        this.neuronNetwork.startTrain();
+    }
 
-            console.log('Iteration: ', i++);
-            console.log('Error: ', image.error);
-        }, 17);
-
+    stopAction() {
+        this.neuronNetwork.startTrain();
     }
 }
 
 new Main();
-

@@ -1,12 +1,4 @@
-export {} from 'enum';
-
 export default class Matrix {
-
-    /**
-     * @param {number[][]} matrix
-     *
-     * @returned {number[][]}
-     */
     static transpose(matrix: number[][]) {
         let transposeMatrix: number[][] = [];
 
@@ -16,7 +8,6 @@ export default class Matrix {
                 if (!transposeMatrix[j]) {
                     transposeMatrix[j] = [];
                 }
-
                 transposeMatrix[j][i] = matrix[i][j];
             }
         }
@@ -24,11 +15,6 @@ export default class Matrix {
         return transposeMatrix;
     }
 
-    /**
-     * @param {number[][]} matrix
-     *
-     * @returned {number[][]}
-     */
     static normalize(matrix: number[][]) {
         let normalizeMatrix: number[][] = [];
 
@@ -53,12 +39,6 @@ export default class Matrix {
         return normalizeMatrix;
     }
 
-    /**
-     * @param {number[][]} matrix1
-     * @param {number[][]} matrix2
-     *
-     * @returned {number[][]}
-     */
     static multipleMatrix(matrix1: number[][], matrix2: number[][]) {
         let resultMatrix: number[][] = [];
 
@@ -78,12 +58,6 @@ export default class Matrix {
         return resultMatrix;
     }
 
-    /**
-     * @param {number[][]} matrix
-     * @param {number} multiplier
-     *
-     * @returns {number[][]}
-     */
     static multipleSkalar(matrix: number[][], multiplier: number) {
         let resultMatrix: number[][] = [];
 
@@ -98,12 +72,6 @@ export default class Matrix {
         return resultMatrix;
     }
 
-    /**
-     * @param {number[][]} matrix1
-     * @param {number[][]} matrix2
-     *
-     * @returns {number[][]}
-     */
     static minus(matrix1: number[][], matrix2: number[][]) {
         let resultMatrix: number[][] = [];
 
@@ -118,11 +86,6 @@ export default class Matrix {
         return resultMatrix;
     }
 
-    /**
-     * @param {number[][]} matrix
-     *
-     * @returned number
-     */
     static vectorSum(matrix: number[][]) {
         if (matrix.length > 1) {
             return 0;
@@ -136,5 +99,4 @@ export default class Matrix {
 
         return sum;
     }
-
 }
