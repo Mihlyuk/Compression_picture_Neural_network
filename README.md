@@ -1,1 +1,1 @@
-# Angular 2Do
+Compression picture by Neural Network. MZR's lab №1.
