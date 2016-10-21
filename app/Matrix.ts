@@ -1,5 +1,3 @@
-export {} from 'enum';
-
 export default class Matrix {
 
     /**

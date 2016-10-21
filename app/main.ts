@@ -1,23 +1,19 @@
-import ImageObject from './ImageObject';
-import {BLOCK_WIDTH, BLOCK_HEIGHT, MIDDLE_NEURONS, ERROR} from './enum';
-class Main {
+import ImageObject from './Image';
 
-    constructor() {
-        let image = <HTMLImageElement> document.querySelector('.image');
+export default class Main {
+
+    constructor(width: number, height: number, number_neural: number, error: number, alpha_X: number, alpha_Y: number) {
+        let image = <HTMLImageElement> document.querySelector('.source_img img');
 
         image.onload = () => {
-            let imageObject = new ImageObject(image, BLOCK_WIDTH, BLOCK_HEIGHT, MIDDLE_NEURONS, ERROR);
+            let imageObject = new ImageObject(image, width, height, number_neural, error, alpha_X, alpha_Y);
 
             imageObject.paint();
 
-            let worker = new Worker('app/calculateWeights.js');
-
-            worker.postMessage('lalal bessmislenny message');
-
-            // this.learning(imageObject);
+            this.learning(imageObject);
         };
 
-        // image.src = 'app/images/smile.png';
+        image.src = 'app/images/losyash_256x256.bmp';
 
     }
 
@@ -25,19 +21,39 @@ class Main {
      * @param {ImageObject} image
      */
     learning(image: ImageObject) {
-        let i = 0;
+        let iteration = 1;
 
-        setInterval(() => {
-            image.training();
+        var intervalId = setInterval(function () {
+            image.learning();
 
             image.paint();
 
-            console.log('Iteration: ', i++);
-            console.log('Error: ', image.error);
-        }, 17);
+            var content = <HTMLDivElement>document.querySelector('.console_content');
 
+            var newP = document.createElement('p');
+            newP.innerHTML = '<p>Iteration: ' + iteration++ + ', error: ' + image.error + '</p>';
+
+            content.appendChild(newP);
+
+            content.scrollTop = content.scrollHeight;
+
+            if (image.error < image.marginError) {
+                let L = image.blockArray.length;
+                let n = image.blockW;
+                let m = image.blockH;
+                let p = image.neuronsLength;
+                let comp_coef = (n * m * 4 * L) / ((n * m * 4 + L) * p + 2);
+
+                var newP = document.createElement('p');
+                newP.innerHTML = '<p>Compression_coefficient: ' + comp_coef + '</p>';
+
+                content.appendChild(newP);
+
+                content.scrollTop = content.scrollHeight;
+
+                clearInterval(intervalId);
+            }
+        });
     }
+
 }
-
-new Main();
-

@@ -4,7 +4,8 @@
     <title>Angular 2Do</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css">
+    <link rel="stylesheet" href="app/css/bootstrap.css">
+    <link rel="stylesheet" href="app/css/index.css">
 
     <!-- Polyfill(s) for older browsers -->
     <script src="node_modules/core-js/client/shim.min.js"></script>
@@ -15,15 +16,47 @@
 
     <script src="systemjs.config.js"></script>
     <script>
-//        System.import('app/calculateWeights').catch(function(err){ console.error(err); });
         System.import('app').catch(function(err){ console.error(err); });
     </script>
 </head>
 
 <body>
-<img class="image" src="app/images/smile.png">
-<br>
-<canvas class="canvas"></canvas>
+
+<div class="container-fluid" style="margin-top: 40px;">
+    <div class="row">
+        <div class="well span6">
+            <legend>Ввод данных</legend>
+            <input class="width" type="text" placeholder="Введите ширину">
+            <input class="height" type="text" placeholder="Введите высоту">
+            <input class="number_neural" type="text" placeholder="Введите кол-во нейронов">
+            <input class="error" type="text" placeholder="Введите ошибку">
+            <input class="alpha_X" type="text" placeholder="Введите alphaX">
+            <input class="alpha_Y" type="text" placeholder="Введите alphaY">
+
+            <button class="send start btn btn-block btn-error" type="submit" name="submit">Запуск</button>
+        </div>
+        <div class="well span6 console">
+            <legend>Консоль</legend>
+            <div class="console_content">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="well span6 source_img">
+            <legend>Исходная картинка</legend>
+            <div class="dropZone">
+                <img src="app/images/losyash_256x256.bmp">
+            </div>
+        </div>
+        <div class="well span6 ready_mg">
+            <legend>Готовая картинка</legend>
+            <div class="dropZone">
+                <canvas class="canvas"></canvas>
+            </div>
+        </div>
+
+    </div>
+</div>
 </body>
 
 </html>
